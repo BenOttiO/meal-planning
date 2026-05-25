@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meal-Planning Inspiration – Proteinreich & Gesund</title>
+  <style>
+    :root {
+      --green:       #2d6a4f;
+      --green-light: #52b788;
+      --green-pale:  #d8f3dc;
+      --gold:        #e9c46a;
+      --bg:          #f2f5f2;
+      --card-bg:     #ffffff;
+      --text:        #1b2e1e;
+      --muted:       #6b7c6e;
+      --radius:      16px;
+      --shadow:      0 4px 24px rgba(0,0,0,.09);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 50%, #52b788 100%);
+      color: #fff;
+      padding: 3.5rem 2rem 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    header > * { position: relative; }
+    header h1 { font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 800; letter-spacing: -.5px; }
+    header p  { margin-top: .7rem; font-size: 1.05rem; opacity: .88; max-width: 560px; margin: .7rem auto 0; }
+    .badges   { display: flex; flex-wrap: wrap; justify-content: center; gap: .55rem; margin-top: 1.4rem; }
+    .badge    {
+      background: rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 999px;
+      padding: .3rem .95rem;
+      font-size: .78rem; font-weight: 600; letter-spacing: .04em;
+    }
+
+    /* ── Layout ── */
+    main { max-width: 1360px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+
+    .section-title {
+      display: flex; align-items: center; gap: .9rem;
+      margin: 2.8rem 0 1.6rem;
+    }
+    .section-title h2 { font-size: 1.4rem; font-weight: 800; white-space: nowrap; }
+    .section-title .line {
+      flex: 1; height: 2px;
+      background: linear-gradient(to right, var(--green-light), transparent);
+      border-radius: 2px;
+    }
+
+    /* ── Meal grid ── */
+    .meals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.6rem;
+    }
+
+    .meal-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform .22s cubic-bezier(.25,.8,.25,1), box-shadow .22s;
+    }
+    .meal-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 44px rgba(0,0,0,.13);
+    }
+
+    /* emoji hero */
+    .card-hero {
+      height: 110px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.6rem;
+      position: relative;
+      flex-shrink: 0;
+      letter-spacing: 0;
+      user-select: none;
+    }
+    .card-hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,.06) 100%);
+      pointer-events: none;
+    }
+
+    /* cuisine tag */
+    .cuisine-tag {
+      display: inline-block;
+      font-size: .68rem; font-weight: 800; letter-spacing: .07em;
+      text-transform: uppercase; border-radius: 999px;
+      padding: .2rem .75rem; margin-bottom: .65rem;
+    }
+    .cuisine-tag.western { background: var(--green-pale); color: var(--green); }
+    .cuisine-tag.asian   { background: #fff8e1; color: #b37a00; }
+
+    .card-body { padding: 1.2rem 1.4rem .9rem; flex: 1; display: flex; flex-direction: column; }
+    .meal-name { font-size: 1.08rem; font-weight: 800; margin-bottom: .45rem; line-height: 1.35; }
+    .meal-desc { font-size: .86rem; color: var(--muted); margin-bottom: 1rem; flex: 1; }
+
+    /* nutrition pills */
+    .nutrition { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: .9rem; }
+    .nut-pill {
+      font-size: .7rem; font-weight: 700; border-radius: 999px;
+      padding: .22rem .68rem; letter-spacing: .01em;
+    }
+    .nut-pill.kcal    { background: #fff3e0; color: #c84b00; }
+    .nut-pill.protein { background: #e8f5e9; color: #1b5e20; }
+    .nut-pill.carbs   { background: #e3f2fd; color: #0d47a1; }
+    .nut-pill.fat     { background: #fce4ec; color: #880e4f; }
+    .nut-pill.fiber   { background: #f3e5f5; color: #6a1b9a; }
+
+    /* prep line */
+    .prep-line {
+      font-size: .75rem; color: var(--muted);
+      display: flex; gap: 1rem;
+      margin-bottom: .9rem;
+    }
+    .prep-line span { display: flex; align-items: center; gap: .3rem; }
+
+    /* ingredients toggle */
+    .ingredients-toggle {
+      font-size: .82rem; font-weight: 700; color: var(--green);
+      cursor: pointer; background: none; border: none; padding: 0;
+      display: flex; align-items: center; gap: .4rem;
+      margin-bottom: .6rem; transition: color .15s;
+    }
+    .ingredients-toggle:hover { color: var(--green-light); }
+    .toggle-arrow { display: inline-block; transition: transform .22s; }
+    .ingredients-toggle.open .toggle-arrow { transform: rotate(90deg); }
+
+    /* 3-column ingredient table */
+    .ing-wrap { display: none; margin-bottom: .6rem; }
+    .ing-wrap.visible { display: block; }
+
+    .ing-table { width: 100%; border-collapse: collapse; font-size: .79rem; }
+    .ing-table thead th {
+      font-size: .68rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .07em; color: var(--muted);
+      border-bottom: 2px solid var(--green-pale);
+      padding: .28rem .4rem .38rem;
+      white-space: nowrap;
+    }
+    .ing-table thead th:first-child { text-align: left; }
+    .ing-table thead th:not(:first-child) { text-align: right; }
+
+    .ing-table tbody tr:nth-child(even) { background: #f8fbf8; }
+    .ing-table tbody tr:hover { background: var(--green-pale); }
+    .ing-table td {
+      padding: .28rem .4rem; vertical-align: middle;
+      border-bottom: 1px solid #f0f4f0;
+    }
+    .ing-table td:first-child { color: var(--text); font-weight: 500; }
+    .ing-table td:not(:first-child) {
+      text-align: right; white-space: nowrap;
+      font-weight: 700; color: var(--green);
+      font-variant-numeric: tabular-nums;
+    }
+    .ing-table tbody tr:last-child td { border-bottom: none; }
+
+    /* steps list */
+    .steps-list {
+      list-style: none;
+      counter-reset: step-counter;
+      font-size: .83rem;
+      margin-bottom: .6rem;
+    }
+    .steps-list li {
+      counter-increment: step-counter;
+      display: flex;
+      gap: .75rem;
+      padding: .5rem 0;
+      border-bottom: 1px solid #f0f4f0;
+      line-height: 1.55;
+      color: var(--text);
+    }
+    .steps-list li:last-child { border-bottom: none; }
+    .steps-list li::before {
+      content: counter(step-counter);
+      min-width: 22px; height: 22px;
+      background: var(--green);
+      color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .68rem; font-weight: 800;
+      flex-shrink: 0;
+      margin-top: .18rem;
+    }
+
+    /* ── Bewährte Rezepte ── */
+    .bewaehrte-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.6rem;
+    }
+    .bewaehrte-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      border: 2px solid var(--gold);
+      transition: transform .22s, box-shadow .22s;
+    }
+    .bewaehrte-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 44px rgba(0,0,0,.15);
+    }
+    .bew-hero {
+      height: 110px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.6rem; flex-shrink: 0;
+    }
+    .bew-body { padding: 1.2rem 1.4rem 1rem; flex: 1; }
+    .star-label {
+      font-size: .7rem; font-weight: 800; letter-spacing: .08em;
+      text-transform: uppercase; color: #9a6e00;
+      background: #fff8dc; border-radius: 999px;
+      padding: .22rem .85rem; display: inline-block; margin-bottom: .7rem;
+    }
+    .bew-name { font-size: 1.12rem; font-weight: 800; margin-bottom: .45rem; }
+    .bew-desc { font-size: .86rem; color: var(--muted); }
+    .bew-footer {
+      padding: .9rem 1.4rem;
+      border-top: 1px solid #f5f0e0;
+      background: #fffcf2;
+      display: flex; align-items: center; gap: .6rem;
+    }
+    .bew-btn {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: var(--green); color: #fff;
+      font-size: .83rem; font-weight: 700;
+      text-decoration: none; border-radius: 999px;
+      padding: .48rem 1.2rem; transition: background .15s, transform .1s;
+    }
+    .bew-btn:hover  { background: #40916c; }
+    .bew-btn:active { transform: scale(.97); }
+    .bew-source { font-size: .74rem; color: var(--muted); margin-left: auto; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center; padding: 2.5rem 1rem;
+      font-size: .79rem; color: var(--muted);
+      border-top: 1px solid #e4ebe4;
+    }
+    footer strong { color: var(--green); }
+
+    /* ── Responsive ── */
+    @media (max-width: 520px) {
+      .meals-grid, .bewaehrte-grid { grid-template-columns: 1fr; }
+      .ing-table { font-size: .74rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🥗 Meal-Planning Inspiration</h1>
+  <p>10 original Rezepte – proteinreich, kalorienarm & abwechslungsreich</p>
+  <div class="badges">
+    <span class="badge">💪 Min. 30g Protein</span>
+    <span class="badge">🔥 Max. 500 kcal</span>
+    <span class="badge">🌏 Westlich & Asiatisch</span>
+    <span class="badge">🥦 Ballaststoffreich</span>
+  </div>
+</header>
+
+<main>
+
+  <div class="section-title">
+    <h2>Rezept-Inspirationen</h2>
+    <div class="line"></div>
+  </div>
+  <div class="meals-grid" id="mealsGrid"></div>
+
+  <div class="section-title">
+    <h2>⭐ Bewährte Rezepte</h2>
+    <div class="line"></div>
+  </div>
+  <div class="bewaehrte-grid" id="bewaehrteGrid"></div>
+
+</main>
+
+<footer>
+  Alle Rezepte und Nährwerte basieren auf eigenem Rezeptwissen · Angaben pro Portion (1 Person) · Richtwerte.
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   MENGENSKALIERUNG  (Basismengen = 1 Person)
+═══════════════════════════════════════════════════ */
+const FRACS = [
+  { str: '¼', val: .25 }, { str: '⅓', val: 1/3 },
+  { str: '½', val: .5  }, { str: '⅔', val: 2/3 },
+  { str: '¾', val: .75 },
+];
+const NO_SCALE = new Set(['nach Bedarf', 'etwas', 'einige Blätter', 'nach Geschmack']);
+
+function parseQty(raw) {
+  if (NO_SCALE.has(raw.trim())) return null;
+  let s = raw.trim(), num = 0;
+  for (const f of FRACS) {
+    if (s.startsWith(f.str)) { num += f.val; s = s.slice(f.str.length).trim(); break; }
+  }
+  const m = s.match(/^(\d+(?:[.,]\d+)?)(.*)/);
+  if (m) {
+    let n = parseFloat(m[1].replace(',', '.')), rest = m[2].trim();
+    for (const f of FRACS) {
+      if (rest.startsWith(f.str)) { n += f.val; rest = rest.slice(f.str.length).trim(); break; }
+    }
+    num += n; s = rest;
+  } else if (num === 0) return null;
+  return { num, unit: s.trim() };
+}
+
+function fmtNum(n) {
+  const w = Math.floor(n), f = n - w, EPS = .04;
+  for (const fr of FRACS) if (Math.abs(f - fr.val) < EPS) return w > 0 ? `${w}${fr.str}` : fr.str;
+  if (Math.abs(f) < EPS) return `${w}`;
+  return (Math.round(n * 10) / 10).toString().replace('.', ',');
+}
+
+function scaleQty(raw, factor) {
+  if (NO_SCALE.has(raw.trim())) return raw.trim();
+  const p = parseQty(raw);
+  if (!p) return raw.trim();
+  return p.unit ? `${fmtNum(p.num * factor)} ${p.unit}` : fmtNum(p.num * factor);
+}
+
+/* ═══════════════════════════════════════════════════
+   REZEPTDATEN  —  Basismengen für 1 Person
+═══════════════════════════════════════════════════ */
+const meals = [
+
+  /* ═══ WESTLICH ═══ */
+
+  {
+    cuisine: "western",
+    emoji: "🥗",
+    heroGrad: "linear-gradient(135deg,#d8f3dc,#b7e4c7)",
+    name: "Hähnchenbrust mit Quinoa & Avocado-Salsa",
+    desc: "Saftige Hähnchenbrust auf fluffigem Quinoa mit frischer Avocado-Tomaten-Salsa und Limetten-Koriander-Dressing. Vollwertig, sättigend und voller gesunder Fette.",
+    kcal: 420, protein: 42, carbs: 34, fat: 13, fiber: 6,
+    prepTime: "25 Min.", difficulty: "Einfach",
+    ingredients: [
+      { name: "Hähnchenbrustfilet",  qty: "160 g"       },
+      { name: "Quinoa (trocken)",    qty: "65 g"        },
+      { name: "Avocado",             qty: "½ Stück"     },
+      { name: "Kirschtomaten",       qty: "80 g"        },
+      { name: "Rucola",              qty: "30 g"        },
+      { name: "Limettensaft",        qty: "1 EL"        },
+      { name: "Koriander (frisch)",  qty: "etwas"       },
+      { name: "Olivenöl",            qty: "1 TL"        },
+      { name: "Salz & Pfeffer",      qty: "nach Bedarf" },
+    ],
+    steps: [
+      "Quinoa in einem Sieb kalt abspülen. In der doppelten Menge Salzwasser aufkochen, Hitze reduzieren und ca. 15 Min. köcheln lassen bis die Flüssigkeit vollständig aufgesogen ist. Vom Herd nehmen und 5 Min. zugedeckt quellen lassen.",
+      "Hähnchenbrust mit Salz, Pfeffer und etwas Paprikapulver würzen. In einer Grillpfanne mit ½ TL Olivenöl bei mittlerer Hitze je 4–5 Min. pro Seite goldbraun braten. Vom Herd nehmen und 3 Min. ruhen lassen, dann in Scheiben schneiden.",
+      "Avocado halbieren, entkernen, schälen und in Würfel schneiden. Kirschtomaten halbieren. Beides mit Limettensaft, gehacktem Koriander, ½ TL Olivenöl, Salz und Pfeffer zu einer Salsa vermengen.",
+      "Quinoa auf einem tiefen Teller anrichten, Hähnchenscheiben und Avocado-Salsa darauflegen. Mit Rucola locker garnieren und sofort servieren.",
+    ],
+  },
+  {
+    cuisine: "western",
+    emoji: "🐟",
+    heroGrad: "linear-gradient(135deg,#d0e8f2,#9dcfe8)",
+    name: "Lachsfilet mit Brokkoli & Süsskartoffeln",
+    desc: "Ofengebackener Lachs mit geröstetem Brokkoli und Süsskartoffelwürfeln. Reich an Omega-3, Vitamin C und Betacarotin – in einem Blech fertig.",
+    kcal: 480, protein: 44, carbs: 36, fat: 16, fiber: 7,
+    prepTime: "35 Min.", difficulty: "Einfach",
+    ingredients: [
+      { name: "Lachsfilet",            qty: "180 g"      },
+      { name: "Brokkoli",              qty: "200 g"      },
+      { name: "Süsskartoffeln",        qty: "140 g"      },
+      { name: "Knoblauchzehe",         qty: "1 Stück"    },
+      { name: "Zitronensaft",          qty: "1 EL"       },
+      { name: "Olivenöl",              qty: "1 EL"       },
+      { name: "Paprikapulver",         qty: "½ TL"       },
+      { name: "Dill (frisch od. TK)",  qty: "etwas"      },
+      { name: "Salz & Pfeffer",        qty: "nach Bedarf"},
+    ],
+    steps: [
+      "Ofen auf 200 °C Umluft vorheizen. Backblech mit Backpapier auslegen.",
+      "Süsskartoffeln schälen und in 2 cm grosse Würfel schneiden. Brokkoli in gleichmässige Röschen teilen. Gemüse auf dem Blech verteilen, mit Olivenöl beträufeln, Knoblauch (gepresst) darübergeben und mit Paprikapulver, Salz und Pfeffer würzen. Gut vermengen.",
+      "Blech 15 Min. in den Ofen schieben. Inzwischen Lachsfilet mit Zitronensaft, Salz und Pfeffer würzen.",
+      "Lachs neben das vorgebratene Gemüse legen und weitere 12–15 Min. garen, bis das Filet in der Mitte gerade gar ist und sich mit einer Gabel leicht aufteilen lässt.",
+      "Aus dem Ofen nehmen, mit frischem Dill bestreuen und sofort servieren.",
+    ],
+  },
+  {
+    cuisine: "western",
+    emoji: "🫒",
+    heroGrad: "linear-gradient(135deg,#dde6f0,#b5cfe6)",
+    name: "Griechischer Hähnchensalat mit Feta & Oliven",
+    desc: "Gegrillte Hähnchenbrust auf knackigem Gemüsebett mit Feta, Oliven und frischem Joghurt-Dressing. Mediterran, proteinreich und ohne Kohlenhydrate.",
+    kcal: 375, protein: 41, carbs: 10, fat: 18, fiber: 3,
+    prepTime: "20 Min.", difficulty: "Einfach",
+    ingredients: [
+      { name: "Hähnchenbrustfilet",      qty: "160 g"          },
+      { name: "Feta",                    qty: "40 g"           },
+      { name: "Gurke",                   qty: "½ Stück"        },
+      { name: "Tomaten",                 qty: "2 Stück"        },
+      { name: "Rote Zwiebel",            qty: "¼ Stück"        },
+      { name: "Oliven (entsteint)",       qty: "10 Stück"       },
+      { name: "Griechischer Joghurt 0%", qty: "60 g"           },
+      { name: "Zitronensaft",            qty: "1 EL"           },
+      { name: "Olivenöl",                qty: "½ TL"           },
+      { name: "Oregano (getrocknet)",    qty: "1 TL"           },
+      { name: "Minze (frisch)",          qty: "einige Blätter" },
+    ],
+    steps: [
+      "Hähnchenbrust etwas flachklopfen, damit sie gleichmässig gart. Mit Salz, Pfeffer und ½ TL Oregano würzen. In einer Grillpfanne mit ½ TL Olivenöl bei mittelhoher Hitze je 4–5 Min. pro Seite braten. Vom Herd nehmen, kurz ruhen lassen und in Streifen schneiden.",
+      "Joghurt-Dressing: Joghurt mit Zitronensaft, ½ TL Oregano, ½ TL Olivenöl sowie Salz und Pfeffer glatt verrühren.",
+      "Gurke in Halbmonde, Tomaten in Würfel und rote Zwiebel in feine Ringe schneiden. Alles zusammen in einer Schüssel vermengen.",
+      "Gemüse auf einem Teller anrichten, Hähnchenstreifen darauflegen. Feta darüberbröckeln, Oliven verteilen, Dressing darübergiessen und mit frischen Minzeblättern abschliessen.",
+    ],
+  },
+  {
+    cuisine: "western",
+    emoji: "🍳",
+    heroGrad: "linear-gradient(135deg,#fde8d0,#f5b880)",
+    name: "Shakshuka mit Kichererbsen & Spinat",
+    desc: "Würzige Tomaten-Paprika-Sauce mit pochierten Eiern, Kichererbsen und Babyspinat. Vegetarisches Powerhouse mit viel Eiweiß, Eisen und Ballaststoffen.",
+    kcal: 385, protein: 28, carbs: 34, fat: 13, fiber: 9,
+    prepTime: "25 Min.", difficulty: "Einfach",
+    ingredients: [
+      { name: "Eier",                        qty: "2 Stück"    },
+      { name: "Kichererbsen (Dose, abgetr.)", qty: "80 g"       },
+      { name: "Gehackte Tomaten (Dose)",      qty: "200 g"      },
+      { name: "Babyspinat",                   qty: "60 g"       },
+      { name: "Paprikaschote",               qty: "½ Stück"    },
+      { name: "Zwiebel",                     qty: "½ Stück"    },
+      { name: "Knoblauchzehen",              qty: "2 Stück"    },
+      { name: "Harissa-Paste",               qty: "½ TL"       },
+      { name: "Kreuzkümmel",                 qty: "½ TL"       },
+      { name: "Geräuchertes Paprikapulver",  qty: "½ TL"       },
+      { name: "Feta zum Bestreuen",          qty: "20 g"       },
+      { name: "Olivenöl",                    qty: "1 TL"       },
+    ],
+    steps: [
+      "Zwiebel fein würfeln, Knoblauch pressen, Paprika in kleine Würfel schneiden. Olivenöl in einer tiefen Pfanne erhitzen und Zwiebel ca. 4 Min. bei mittlerer Hitze glasig dünsten.",
+      "Knoblauch, Paprika, Harissa, Kreuzkümmel und geräuchertes Paprikapulver hinzufügen. Unter Rühren 2 Min. anrösten bis alles duftet.",
+      "Kichererbsen und gehackte Tomaten dazugeben, alles gut verrühren. Bei mittlerer Hitze 8–10 Min. offen köcheln lassen bis die Sauce sämig eindickt.",
+      "Babyspinat einrühren und zusammenfallen lassen. Mit einem Löffel 2 Mulden in die Sauce drücken und je ein Ei hineingleiten lassen. Pfanne zudecken.",
+      "Eier je nach gewünschtem Gargrad 5–7 Min. garen (Eiweiss gestockt, Eigelb noch cremig). Mit Feta bestreuen und direkt aus der Pfanne servieren.",
+    ],
+  },
+  {
+    cuisine: "western",
+    emoji: "🥞",
+    heroGrad: "linear-gradient(135deg,#f5e6d0,#e8c090)",
+    name: "High-Protein Quark-Pancakes mit Beeren",
+    desc: "Fluffige, mehlfreie Pancakes aus Magerquark, Eiern und Haferflocken. Mit frischen Beeren und Joghurt ein perfektes proteinreiches Frühstück.",
+    kcal: 355, protein: 33, carbs: 32, fat: 9, fiber: 4,
+    prepTime: "20 Min.", difficulty: "Einfach",
+    ingredients: [
+      { name: "Magerquark",              qty: "150 g"  },
+      { name: "Ei",                      qty: "1 Stück" },
+      { name: "Haferflocken (zart)",     qty: "30 g"   },
+      { name: "Backpulver",              qty: "¼ TL"   },
+      { name: "Vanilleextrakt",          qty: "¼ TL"   },
+      { name: "Blaubeeren",              qty: "60 g"   },
+      { name: "Himbeeren",               qty: "40 g"   },
+      { name: "Griechischer Joghurt 0%", qty: "50 g"   },
+      { name: "Honig",                   qty: "1 TL"   },
+    ],
+    steps: [
+      "Quark, Ei, Haferflocken, Backpulver und Vanilleextrakt in einer Schüssel glatt verrühren. Teig 5 Min. ruhen lassen damit die Haferflocken quellen.",
+      "Eine beschichtete Pfanne mit wenigen Tropfen Rapsöl bei mittlerer Hitze erhitzen. Sobald die Pfanne heiss ist, jeweils 2 EL Teig pro Pancake hineingeben und leicht flachdrücken.",
+      "Ca. 2–3 Min. braten bis die Oberfläche Blasen wirft und die Ränder fest werden. Vorsichtig wenden und nochmals 2 Min. goldbraun braten. Mit dem restlichen Teig wiederholen.",
+      "Joghurt mit Honig verrühren. Pancakes auf einem Teller stapeln, mit Joghurt, Blaubeeren und Himbeeren toppen und sofort servieren.",
+    ],
+  },
+
+  /* ═══ ASIATISCH ═══ */
+
+  {
+    cuisine: "asian",
+    emoji: "🌿",
+    heroGrad: "linear-gradient(135deg,#d4edd8,#88c898)",
+    name: "Thai Phat Krapao – Hähnchen mit Basilikum",
+    desc: "Klassisches Thai-Strassenfood: Hähnchenhackfleisch mit reichlich Knoblauch, Chili und duftendem Thai-Basilikum, serviert mit Jasminreis und Spiegelei.",
+    kcal: 340, protein: 38, carbs: 16, fat: 11, fiber: 2,
+    prepTime: "20 Min.", difficulty: "Einfach",
+    ingredients: [
+      { name: "Hähnchenhackfleisch",  qty: "150 g"  },
+      { name: "Jasminreis (trocken)", qty: "55 g"   },
+      { name: "Thai-Basilikum",       qty: "1 Bund" },
+      { name: "Knoblauchzehen",       qty: "3 Stück" },
+      { name: "Chilischote (rot)",    qty: "1 Stück" },
+      { name: "Ei",                   qty: "1 Stück" },
+      { name: "Fischsauce",           qty: "1 EL"   },
+      { name: "Sojasosse (light)",    qty: "1 EL"   },
+      { name: "Austernsosse",         qty: "1 TL"   },
+      { name: "Rapsöl",               qty: "1 TL"   },
+    ],
+    steps: [
+      "Jasminreis nach Packungsanweisung kochen (ca. 10–12 Min.).",
+      "Knoblauch fein hacken, Chili in dünne Ringe schneiden. Öl im Wok oder einer grossen beschichteten Pfanne bei hoher Hitze erhitzen. Knoblauch und Chili unter ständigem Rühren ca. 30 Sekunden anbraten bis sie duften.",
+      "Hähnchenhackfleisch hinzufügen und aufbrechen. Bei hoher Hitze 4–5 Min. krümelig braten bis kein Rosa mehr zu sehen ist.",
+      "Fischsauce, Sojasosse und Austernsosse darübergiessen, alles gut vermengen und 1 Min. weiterbraten. Pfanne vom Herd nehmen, Thai-Basilikumblätter unterheben – sie garen in der Restwärme.",
+      "In einer separaten Pfanne das Spiegelei mit knusprigem Rand braten. Reis in eine Schüssel geben, Hähnchen-Basilikum-Mischung darauflöffeln und Spiegelei obenauf setzen.",
+    ],
+  },
+  {
+    cuisine: "asian",
+    emoji: "🍱",
+    heroGrad: "linear-gradient(135deg,#fde0c8,#f5a870)",
+    name: "Teriyaki-Lachs mit Edamame & braunem Reis",
+    desc: "Lachsfilet in hausgemachter Teriyaki-Glasur auf braunem Reis mit Edamame und Sesam. Japanisch inspiriert, reich an Omega-3 und komplexen Kohlenhydraten.",
+    kcal: 470, protein: 42, carbs: 42, fat: 14, fiber: 6,
+    prepTime: "30 Min.", difficulty: "Mittel",
+    ingredients: [
+      { name: "Lachsfilet",                 qty: "180 g"  },
+      { name: "Brauner Reis (trocken)",      qty: "60 g"   },
+      { name: "Edamame (TK, geschält)",     qty: "70 g"   },
+      { name: "Sojasosse (light)",          qty: "2 EL"   },
+      { name: "Mirin",                      qty: "1 EL"   },
+      { name: "Honig",                      qty: "1 TL"   },
+      { name: "Sesamöl",                    qty: "½ TL"   },
+      { name: "Sesamsamen",                 qty: "1 TL"   },
+      { name: "Frühlingszwiebeln",          qty: "2 Stück" },
+      { name: "Ingwer (frisch, gerieben)",  qty: "1 TL"   },
+    ],
+    steps: [
+      "Braunen Reis nach Packungsanweisung kochen (ca. 25 Min.). Er braucht am längsten – zuerst starten.",
+      "Teriyaki-Glasur anrühren: Sojasosse, Mirin, Honig und geriebenen Ingwer in einer kleinen Schüssel vermengen.",
+      "Lachsfilet trocken tupfen und auf der Hautseite in eine kalte, leicht geölte Pfanne legen. Hitze auf mittel erhöhen und 3–4 Min. braten bis die Haut knusprig ist. Wenden und weitere 2 Min. garen.",
+      "Glasur über den Lachs giessen und bei mittlerer Hitze 1–2 Min. einkochen lassen bis sie karamellisiert und glänzt.",
+      "Edamame nach Packungsanweisung erhitzen. Sesamöl unter den Reis rühren. Alles in einer Schüssel anrichten: Reis, Lachs, Edamame. Mit Sesamsamen und Frühlingszwiebeln (in Ringe geschnitten) garnieren.",
+    ],
+  },
+  {
+    cuisine: "asian",
+    emoji: "🍚",
+    heroGrad: "linear-gradient(135deg,#fff0c8,#ffd060)",
+    name: "Koreanisches Bibimbap mit Rinderhack",
+    desc: "Bunter Reistopf mit magerem Rinderhackfleisch, sautiertem Gemüse, Spiegelei und einem Hauch Gochujang. Farbenfroh, abwechslungsreich und sättigend.",
+    kcal: 445, protein: 36, carbs: 46, fat: 11, fiber: 5,
+    prepTime: "35 Min.", difficulty: "Mittel",
+    ingredients: [
+      { name: "Rinderhackfleisch (mager)", qty: "120 g"  },
+      { name: "Brauner Reis (trocken)",    qty: "65 g"   },
+      { name: "Babyspinat",               qty: "60 g"   },
+      { name: "Karotten",                 qty: "1 Stück" },
+      { name: "Zucchini",                 qty: "½ Stück" },
+      { name: "Shiitake-Pilze",           qty: "50 g"   },
+      { name: "Ei",                       qty: "1 Stück" },
+      { name: "Sojasosse (light)",        qty: "1 EL"   },
+      { name: "Gochujang",                qty: "½ TL"   },
+      { name: "Sesamöl",                  qty: "1 TL"   },
+      { name: "Sesamsamen",               qty: "1 TL"   },
+      { name: "Knoblauchzehen",           qty: "2 Stück" },
+    ],
+    steps: [
+      "Braunen Reis kochen. Karotten und Zucchini in feine Julienne (Streichholzform) schneiden, Shiitake-Pilze in dünne Streifen, Knoblauch fein hacken.",
+      "Rinderhackfleisch mit ½ EL Sojasosse und 1 Knoblauchzehe in einer Pfanne bei mittlerer Hitze krümelig braten. Beiseitelegen.",
+      "Karotten, Zucchini und Shiitake jeweils separat in einem Spritzer Sesamöl 2 Min. sautieren, leicht mit Sojasosse würzen. Babyspinat kurz in derselben Pfanne zusammenfallen lassen.",
+      "Spiegelei braten.",
+      "Reis in eine tiefe Schüssel füllen. Fleisch und Gemüse sektionsweise darauf verteilen, Spiegelei in die Mitte setzen. Gochujang an den Rand geben, Sesamsamen und Frühlingszwiebeln darüberstreuen. Vor dem Essen alles kräftig vermischen.",
+    ],
+  },
+  {
+    cuisine: "asian",
+    emoji: "🍜",
+    heroGrad: "linear-gradient(135deg,#e8f4e8,#b8d8b8)",
+    name: "Vietnamesische Pho mit Hähnchen & Kräutern",
+    desc: "Klare, tief aromatisierte Hühnerbrühe mit Reisnudeln, zarter Hähnchenbrust, Bohnenkeimlinge und frischen Kräutern. Kalorienarm, leicht und würzig.",
+    kcal: 365, protein: 34, carbs: 38, fat: 7, fiber: 3,
+    prepTime: "40 Min.", difficulty: "Mittel",
+    ingredients: [
+      { name: "Hähnchenbrustfilet",    qty: "140 g"          },
+      { name: "Reisnudeln (dünn)",     qty: "55 g"           },
+      { name: "Hühnerbrühe (klar)",    qty: "600 ml"         },
+      { name: "Bohnenkeimlinge",       qty: "50 g"           },
+      { name: "Frühlingszwiebeln",     qty: "2 Stück"        },
+      { name: "Chilischote",           qty: "½ Stück"        },
+      { name: "Limette",               qty: "½ Stück"        },
+      { name: "Ingwer (frisch)",       qty: "2 cm"           },
+      { name: "Sternanis",             qty: "1 Stück"        },
+      { name: "Koriander (frisch)",    qty: "einige Blätter" },
+      { name: "Fischsauce",            qty: "1 EL"           },
+    ],
+    steps: [
+      "Hühnerbrühe in einem Topf aufkochen. Ingwer in Scheiben, Sternanis und Fischsauce dazugeben. Hitze reduzieren und 10 Min. bei kleiner Flamme ziehen lassen damit die Aromen sich entfalten.",
+      "Hähnchenbrustfilet in die simmernde Brühe gleiten lassen (Brühe darf nicht sprudelnd kochen). Ca. 12–15 Min. gar ziehen lassen. Herausnehmen und mit zwei Gabeln in Streifen zerzupfen oder in dünne Scheiben schneiden.",
+      "Reisnudeln in kochendem Wasser oder gemäss Packungsanweisung 3–5 Min. einweichen bis al dente. Abgiessen und kurz mit kaltem Wasser abschrecken.",
+      "Sternanis und Ingwer aus der Brühe entfernen. Brühe nochmals aufkochen und mit Fischsauce abschmecken.",
+      "Nudeln in tiefe Schüsseln verteilen, Hähnchen darauflegen, kochend heisse Brühe darübergiessen. Mit Bohnenkeimlinge, Frühlingszwiebeln, Chili und Limettenspalten belegen. Frischen Koriander darüberstreuen und sofort servieren.",
+    ],
+  },
+  {
+    cuisine: "asian",
+    emoji: "🥢",
+    heroGrad: "linear-gradient(135deg,#f0e8dc,#d8c0a8)",
+    name: "Japanisches Miso-Hähnchen mit Pak Choi",
+    desc: "Hähnchenbrust in Miso-Marinade gebraten, mit gedünstetem Pak Choi und nussigem Sesam-Reis. Umami-intensiv, dabei kalorienarm und ausgesprochen sättigend.",
+    kcal: 395, protein: 41, carbs: 37, fat: 10, fiber: 4,
+    prepTime: "30 Min.", difficulty: "Einfach",
+    ingredients: [
+      { name: "Hähnchenbrustfilet",   qty: "160 g"  },
+      { name: "Pak Choi",             qty: "150 g"  },
+      { name: "Brauner Reis (trocken)",qty: "65 g"  },
+      { name: "Miso-Paste (hell)",    qty: "1 EL"   },
+      { name: "Sojasosse (light)",    qty: "1 EL"   },
+      { name: "Mirin",                qty: "1 TL"   },
+      { name: "Ingwer (frisch)",      qty: "2 cm"   },
+      { name: "Knoblauchzehe",        qty: "1 Stück" },
+      { name: "Sesamsamen",           qty: "1 TL"   },
+      { name: "Sesamöl",              qty: "½ TL"   },
+      { name: "Frühlingszwiebeln",    qty: "2 Stück" },
+    ],
+    steps: [
+      "Miso-Paste, Sojasosse, Mirin, geriebenen Ingwer und gepressten Knoblauch verrühren. Hähnchenbrust rundum mit der Marinade einreiben und mindestens 10 Min. ziehen lassen (oder über Nacht im Kühlschrank).",
+      "Braunen Reis nach Packungsanweisung kochen.",
+      "Eine beschichtete Pfanne bei mittlerer Hitze erhitzen. Hähnchen aus der Marinade nehmen (Marinade aufbewahren) und je 5–6 Min. pro Seite braten bis es goldbraun und durchgegart ist. Restliche Marinade in den letzten 2 Min. darübergiessen und eindicken lassen. Hähnchen herausnehmen und 3 Min. ruhen lassen.",
+      "Pak Choi längs halbieren, in dieselbe Pfanne geben und mit 2 EL Wasser zugedeckt 2–3 Min. dämpfen bis er zart-knackig ist.",
+      "Sesamöl unter den Reis heben. Hähnchen in Scheiben schneiden. Alles auf einem Teller anrichten, mit Sesamsamen und Frühlingszwiebeln (in feine Ringe geschnitten) bestreuen.",
+    ],
+  },
+
+  /* ═══ WEITERE WESTLICHE REZEPTE ═══ */
+
+  {
+    cuisine: "western",
+    emoji: "🍝",
+    heroGrad: "linear-gradient(135deg,#fde8d0,#f0b888)",
+    name: "Truthahn-Bolognese mit Vollkorn-Spaghetti",
+    desc: "Mageres Putenhackfleisch in reichhaltiger Tomatensauce mit frischen Kräutern auf Vollkorn-Spaghetti. Klassische Bolognese, proteinreich und mit extra Ballaststoffen.",
+    kcal: 445, protein: 38, carbs: 46, fat: 9, fiber: 9,
+    prepTime: "35 Min.", difficulty: "Einfach",
+    ingredients: [
+      { name: "Putenhackfleisch",         qty: "130 g"       },
+      { name: "Vollkorn-Spaghetti",       qty: "75 g"        },
+      { name: "Gehackte Tomaten (Dose)",  qty: "200 g"       },
+      { name: "Zwiebel",                  qty: "½ Stück"     },
+      { name: "Knoblauchzehen",           qty: "2 Stück"     },
+      { name: "Karotte",                  qty: "½ Stück"     },
+      { name: "Selleriestange",           qty: "1 Stück"     },
+      { name: "Tomatenmark",              qty: "1 EL"        },
+      { name: "Rotwein (optional)",       qty: "2 EL"        },
+      { name: "Olivenöl",                 qty: "1 TL"        },
+      { name: "Basilikum (frisch)",       qty: "etwas"       },
+      { name: "Salz & Pfeffer",           qty: "nach Bedarf" },
+    ],
+    steps: [
+      "Zwiebel, Karotte und Sellerie fein würfeln (Soffritto). Knoblauch pressen. Olivenöl in einem Topf erhitzen, Soffritto bei mittlerer Hitze 6–8 Min. weich dünsten.",
+      "Putenhackfleisch hinzufügen und bei hoher Hitze 4–5 Min. krümelig braten bis kein Rosa mehr sichtbar ist.",
+      "Tomatenmark einrühren und 1 Min. anrösten. Optional Rotwein dazugeben und vollständig einkochen lassen. Gehackte Tomaten und 100 ml Wasser hinzufügen.",
+      "Hitze reduzieren, Sauce 20 Min. offen köcheln lassen bis sie sämig eindickt. Mit Salz, Pfeffer und Basilikum abschmecken.",
+      "Spaghetti in reichlich Salzwasser al dente kochen. Abgiessen, eine Kelle Kochwasser aufbewahren. Sauce mit etwas Pastawasser angleichen, Spaghetti darin schwenken und sofort servieren.",
+    ],
+  },
+  {
+    cuisine: "western",
+    emoji: "🌯",
+    heroGrad: "linear-gradient(135deg,#fff0d8,#ffd090)",
+    name: "Hähnchen-Döner-Bowl mit Tzatziki",
+    desc: "Knusprig gewürzte Hähnchenstreifen auf frischem Salat mit Tomaten, roter Zwiebel und leichtem Joghurt-Tzatziki. Alle Döner-Aromen – ohne Fladenbrot.",
+    kcal: 390, protein: 41, carbs: 14, fat: 15, fiber: 4,
+    prepTime: "25 Min.", difficulty: "Einfach",
+    ingredients: [
+      { name: "Hähnchenbrustfilet",       qty: "160 g"       },
+      { name: "Griechischer Joghurt 0%",  qty: "80 g"        },
+      { name: "Gurke",                    qty: "¼ Stück"     },
+      { name: "Eisbergsalat",             qty: "60 g"        },
+      { name: "Tomaten",                  qty: "1 Stück"     },
+      { name: "Rote Zwiebel",             qty: "¼ Stück"     },
+      { name: "Knoblauchzehe",            qty: "1 Stück"     },
+      { name: "Zitronensaft",             qty: "1 EL"        },
+      { name: "Paprikapulver",            qty: "1 TL"        },
+      { name: "Kreuzkümmel",              qty: "½ TL"        },
+      { name: "Oregano",                  qty: "½ TL"        },
+      { name: "Olivenöl",                 qty: "1 TL"        },
+    ],
+    steps: [
+      "Tzatziki: Gurke fein reiben und überschüssiges Wasser ausdrücken. Mit Joghurt, gepresstem Knoblauch, Zitronensaft, Salz und Pfeffer verrühren. Kalt stellen.",
+      "Hähnchen in dünne Streifen schneiden. Mit Paprikapulver, Kreuzkümmel, Oregano, ½ TL Olivenöl, Salz und Pfeffer marinieren.",
+      "Pfanne bei hoher Hitze erhitzen, ½ TL Olivenöl darin erhitzen. Hähnchenstreifen in einer Schicht braten – 3–4 Min. ohne Rühren für Röstaromen, dann wenden und weitere 2 Min. fertiggaren.",
+      "Eisbergsalat grob schneiden, Tomaten würfeln, rote Zwiebel in feine Ringe schneiden.",
+      "Salat in einer Bowl anrichten, Hähnchenstreifen darauflegen und grosszügig Tzatziki darübergiessen.",
+    ],
+  },
+  {
+    cuisine: "western",
+    emoji: "🦃",
+    heroGrad: "linear-gradient(135deg,#e8f0e0,#c0d8a8)",
+    name: "Putenbrust mit Blumenkohlreis & Chimichurri",
+    desc: "Saftiges Putenbrustfilet mit frischem argentinischen Kräuter-Chimichurri auf leichtem Blumenkohlreis. Kalorienarm, glutenfrei und voller Aromen.",
+    kcal: 370, protein: 44, carbs: 13, fat: 15, fiber: 7,
+    prepTime: "30 Min.", difficulty: "Einfach",
+    ingredients: [
+      { name: "Putenbrustfilet",          qty: "180 g"       },
+      { name: "Blumenkohl",               qty: "300 g"       },
+      { name: "Petersilie (frisch)",      qty: "½ Bund"      },
+      { name: "Knoblauchzehen",           qty: "2 Stück"     },
+      { name: "Rote Chilischote",         qty: "½ Stück"     },
+      { name: "Rotweinessig",             qty: "1 EL"        },
+      { name: "Olivenöl",                 qty: "1½ TL"       },
+      { name: "Oregano (getrocknet)",     qty: "½ TL"        },
+      { name: "Zitronensaft",             qty: "½ EL"        },
+      { name: "Salz & Pfeffer",           qty: "nach Bedarf" },
+    ],
+    steps: [
+      "Chimichurri: Petersilie und Chili fein hacken, Knoblauch pressen. Alles mit Rotweinessig, 1 TL Olivenöl, Oregano, Zitronensaft, Salz und Pfeffer verrühren. Mindestens 10 Min. ziehen lassen.",
+      "Blumenkohl in Röschen zerteilen und mit einer Reibe oder im Zerkleinerer zu «Reis»-grossen Krümeln verarbeiten.",
+      "Putenbrustfilet etwas flachklopfen, mit Salz und Pfeffer würzen. In einer Grillpfanne mit ½ TL Olivenöl bei mittlerer Hitze je 5–6 Min. pro Seite goldbraun braten bis es vollständig durchgegart ist.",
+      "Blumenkohlreis in einer beschichteten Pfanne ohne Fett oder mit wenig Wasser 4–5 Min. unter gelegentlichem Rühren braten bis er leicht Farbe nimmt. Mit Salz würzen.",
+      "Blumenkohlreis anrichten, Putenbrust daraufsetzen und grosszügig Chimichurri darübergiessen.",
+    ],
+  },
+  {
+    cuisine: "western",
+    emoji: "🐠",
+    heroGrad: "linear-gradient(135deg,#e0e8f8,#a8c0e8)",
+    name: "Thunfisch-Niçoise mit hartgekochten Eiern",
+    desc: "Klassischer Salade Niçoise mit Thunfisch in Wasser, hartgekochten Eiern, grünen Bohnen, Oliven und Dijon-Vinaigrette. Schnell, frisch und proteinreich.",
+    kcal: 380, protein: 38, carbs: 16, fat: 17, fiber: 5,
+    prepTime: "20 Min.", difficulty: "Einfach",
+    ingredients: [
+      { name: "Thunfisch in Wasser",      qty: "130 g"       },
+      { name: "Eier",                     qty: "2 Stück"     },
+      { name: "Grüne Bohnen",             qty: "100 g"       },
+      { name: "Kirschtomaten",            qty: "80 g"        },
+      { name: "Oliven (schwarz)",         qty: "8 Stück"     },
+      { name: "Kopfsalat",                qty: "50 g"        },
+      { name: "Dijon-Senf",               qty: "½ TL"        },
+      { name: "Rotweinessig",             qty: "1 EL"        },
+      { name: "Olivenöl",                 qty: "1 TL"        },
+      { name: "Kapern",                   qty: "1 TL"        },
+    ],
+    steps: [
+      "Eier in kochendem Wasser 9 Min. hartkochen. In eiskaltem Wasser abschrecken, schälen und halbieren.",
+      "Grüne Bohnen in leicht gesalzenem Wasser 4–5 Min. blanchieren bis sie bissfest sind. Sofort in Eiswasser abschrecken um die Farbe zu erhalten.",
+      "Vinaigrette: Dijon-Senf, Rotweinessig, Olivenöl, Salz und Pfeffer mit einer Gabel kräftig verrühren bis eine emulgierte Sauce entsteht.",
+      "Thunfisch abtropfen lassen und grob in Stücke zupfen. Kirschtomaten halbieren.",
+      "Salat auf einem Teller ausbreiten. Bohnen, Tomaten, Eier, Thunfisch und Oliven dekorativ darauflegen. Kapern verstreuen und Vinaigrette darübergiessen.",
+    ],
+  },
+  {
+    cuisine: "western",
+    emoji: "🫘",
+    heroGrad: "linear-gradient(135deg,#ffe8d8,#f8b898)",
+    name: "Rotes Linsen-Dal mit Hähnchen & Spinat",
+    desc: "Würziges indisch inspiriertes Dal mit roten Linsen, zarter Hähnchenbrust und Babyspinat. Cremig, vollwertig und mit einem tiefen Gewürzaroma.",
+    kcal: 420, protein: 40, carbs: 42, fat: 8, fiber: 11,
+    prepTime: "35 Min.", difficulty: "Einfach",
+    ingredients: [
+      { name: "Hähnchenbrustfilet",       qty: "140 g"       },
+      { name: "Rote Linsen (trocken)",    qty: "60 g"        },
+      { name: "Babyspinat",               qty: "60 g"        },
+      { name: "Gehackte Tomaten (Dose)",  qty: "150 g"       },
+      { name: "Zwiebel",                  qty: "½ Stück"     },
+      { name: "Knoblauchzehen",           qty: "2 Stück"     },
+      { name: "Ingwer (frisch)",          qty: "2 cm"        },
+      { name: "Garam Masala",             qty: "1 TL"        },
+      { name: "Kurkuma",                  qty: "½ TL"        },
+      { name: "Rapsöl",                   qty: "1 TL"        },
+      { name: "Zitronensaft",             qty: "1 EL"        },
+    ],
+    steps: [
+      "Zwiebel fein würfeln, Knoblauch pressen, Ingwer reiben. Öl in einem Topf erhitzen, Zwiebel 5 Min. bei mittlerer Hitze glasig dünsten.",
+      "Knoblauch, Ingwer, Garam Masala und Kurkuma einrühren und 1–2 Min. anrösten bis es duftet.",
+      "Rote Linsen, gehackte Tomaten und 300 ml Wasser dazugeben. Aufkochen und bei kleiner Hitze 15–18 Min. köcheln lassen bis die Linsen weich sind.",
+      "Hähnchenbrust in Würfel schneiden und in einer separaten Pfanne in wenig Öl 4–5 Min. bei mittlerer Hitze gar braten. Zum Dal geben.",
+      "Babyspinat unterrühren und 2 Min. zusammenfallen lassen. Mit Zitronensaft, Salz und Pfeffer abschmecken. Mit Naturjoghurt und Reis servieren.",
+    ],
+  },
+
+  /* ═══ WEITERE ASIATISCHE REZEPTE ═══ */
+
+  {
+    cuisine: "asian",
+    emoji: "🍗",
+    heroGrad: "linear-gradient(135deg,#fff8e0,#f8d880)",
+    name: "Hainanese Chicken Rice (leicht)",
+    desc: "Singapores berühmtestes Gericht in leichter Variante: pochiertes Hähnchen auf duftendem Ingwer-Knoblauch-Reis mit frischer Chili-Ingwer-Sauce. Zart und aromatisch.",
+    kcal: 430, protein: 39, carbs: 44, fat: 9, fiber: 2,
+    prepTime: "40 Min.", difficulty: "Mittel",
+    ingredients: [
+      { name: "Hähnchenbrustfilet",       qty: "160 g"       },
+      { name: "Jasminreis (trocken)",     qty: "65 g"        },
+      { name: "Hühnerbrühe (klar)",       qty: "400 ml"      },
+      { name: "Ingwer (frisch)",          qty: "3 cm"        },
+      { name: "Knoblauchzehen",           qty: "3 Stück"     },
+      { name: "Sesamöl",                  qty: "½ TL"        },
+      { name: "Sojasosse (light)",        qty: "1 EL"        },
+      { name: "Chilischote (rot)",        qty: "1 Stück"     },
+      { name: "Limettensaft",             qty: "1 EL"        },
+      { name: "Frühlingszwiebeln",        qty: "2 Stück"     },
+      { name: "Gurke",                    qty: "¼ Stück"     },
+    ],
+    steps: [
+      "Hühnerbrühe mit der Hälfte des Ingwers (in Scheiben) und 1 Knoblauchzehe aufkochen. Hähnchenbrust einlegen und bei kleinster Hitze 15–18 Min. gar pochieren. Herausnehmen, abschrecken und in Scheiben schneiden. Brühe aufbewahren.",
+      "Reis mit Sesamöl und dem restlichen gepressten Knoblauch in einem Topf 1 Min. anrösten. Mit 130 ml heisser Pochierbrühe aufgiessen, aufkochen, Hitze minimieren und 12 Min. zugedeckt garen.",
+      "Chili-Ingwer-Sauce: restlichen Ingwer reiben, mit fein gehackter Chili, Limettensaft und Sojasosse sowie 1 EL warmer Brühe verrühren.",
+      "Gurke in dünne Scheiben schneiden.",
+      "Reis auf einem Teller anrichten, Hähnchenscheiben und Gurkenscheiben drapieren. Frühlingszwiebeln (in Ringe geschnitten) darüberstreuen und die Sauce separat dazu reichen.",
+    ],
+  },
+  {
+    cuisine: "asian",
+    emoji: "🥬",
+    heroGrad: "linear-gradient(135deg,#d8f0e8,#90d0b0)",
+    name: "Chinesisches Ingwer-Hähnchen mit Pak Choi",
+    desc: "Schnelles Wok-Gericht mit zartem Hähnchen, frischem Pak Choi und aromatischer Ingwer-Knoblauch-Austernsosse. Blitzschnell fertig und voller Wok-Aroma.",
+    kcal: 360, protein: 38, carbs: 18, fat: 11, fiber: 3,
+    prepTime: "20 Min.", difficulty: "Einfach",
+    ingredients: [
+      { name: "Hähnchenbrustfilet",       qty: "160 g"       },
+      { name: "Pak Choi",                 qty: "200 g"       },
+      { name: "Ingwer (frisch)",          qty: "3 cm"        },
+      { name: "Knoblauchzehen",           qty: "3 Stück"     },
+      { name: "Austernsosse",             qty: "1½ EL"       },
+      { name: "Sojasosse (light)",        qty: "1 EL"        },
+      { name: "Reiswein (Shaoxing)",      qty: "1 EL"        },
+      { name: "Sesamöl",                  qty: "½ TL"        },
+      { name: "Rapsöl",                   qty: "1 TL"        },
+      { name: "Frühlingszwiebeln",        qty: "2 Stück"     },
+      { name: "Sesamsamen",               qty: "1 TL"        },
+    ],
+    steps: [
+      "Hähnchen in dünne, gleichmässige Scheiben schneiden. Mit 1 TL Sojasosse und Reiswein 5 Min. marinieren. Ingwer und Knoblauch fein hacken. Pak Choi längs halbieren.",
+      "Wok bei sehr hoher Hitze aufheizen. Rapsöl erhitzen bis es leicht raucht. Hähnchenstreifen in einer Schicht 2 Min. ohne Bewegen braten für Röstaromen, wenden, weitere 1–2 Min. garen. Herausnehmen.",
+      "Ingwer und Knoblauch in denselben Wok geben, 20 Sekunden unter Rühren anbraten.",
+      "Pak Choi dazugeben und bei hoher Hitze 2–3 Min. wok-braten bis die Blätter welk sind, der Stiel aber noch knackig ist.",
+      "Hähnchen zurück in den Wok geben. Austernsosse, restliche Sojasosse und Sesamöl darübergiessen. 30 Sekunden alles vermengen. Mit Frühlingszwiebeln und Sesamsamen bestreuen. Mit Reis servieren.",
+    ],
+  },
+  {
+    cuisine: "asian",
+    emoji: "🌱",
+    heroGrad: "linear-gradient(135deg,#d8f0d0,#80c880)",
+    name: "Thai Green Curry mit Hähnchen & Zucchini",
+    desc: "Aromatisches Thai-Curry mit frischer grüner Currypaste, Hähnchenstreifen, Zucchini und Kokosmilch light. Schnell, duftig und leichter als klassisches Kokos-Curry.",
+    kcal: 400, protein: 36, carbs: 22, fat: 14, fiber: 4,
+    prepTime: "25 Min.", difficulty: "Einfach",
+    ingredients: [
+      { name: "Hähnchenbrustfilet",       qty: "150 g"       },
+      { name: "Kokosmilch light",         qty: "150 ml"      },
+      { name: "Grüne Currypaste",         qty: "1 EL"        },
+      { name: "Zucchini",                 qty: "1 Stück"     },
+      { name: "Paprikaschote (grün)",     qty: "½ Stück"     },
+      { name: "Jasminreis (trocken)",     qty: "50 g"        },
+      { name: "Fischsauce",               qty: "1 EL"        },
+      { name: "Limettensaft",             qty: "1 EL"        },
+      { name: "Thai-Basilikum",           qty: "1 Handvoll"  },
+      { name: "Rapsöl",                   qty: "1 TL"        },
+    ],
+    steps: [
+      "Jasminreis kochen. Hähnchen in mundgerechte Stücke schneiden. Zucchini in Halbmonde, Paprika in Streifen schneiden.",
+      "Öl in einem Wok oder tiefen Topf erhitzen. Grüne Currypaste 1 Min. bei mittlerer Hitze unter Rühren anbraten bis sie duftet.",
+      "Kokosmilch dazugiessen und aufkochen. Hähnchenstücke hinzufügen und 6–8 Min. in der Sauce gar ziehen lassen.",
+      "Zucchini und Paprika dazugeben und weitere 3–4 Min. köcheln lassen bis das Gemüse knackig-zart ist.",
+      "Mit Fischsauce und Limettensaft abschmecken. Vom Herd nehmen, Thai-Basilikum unterrühren. Auf Reis servieren.",
+    ],
+  },
+  {
+    cuisine: "asian",
+    emoji: "🍢",
+    heroGrad: "linear-gradient(135deg,#f8ece0,#e8c8a0)",
+    name: "Japanisches Yakitori mit Edamame-Salat",
+    desc: "Gegrillte Hähnchenspiesse in Tare-Glasur (Sojasosse, Mirin, Sake) auf knackigem Edamame-Gurken-Salat mit Sesam-Dressing. Japanisch-inspiriert und kalorienarm.",
+    kcal: 385, protein: 37, carbs: 24, fat: 12, fiber: 6,
+    prepTime: "25 Min.", difficulty: "Einfach",
+    ingredients: [
+      { name: "Hähnchenbrustfilet",       qty: "150 g"       },
+      { name: "Edamame (TK, geschält)",   qty: "80 g"        },
+      { name: "Gurke",                    qty: "½ Stück"     },
+      { name: "Sojasosse (light)",        qty: "2 EL"        },
+      { name: "Mirin",                    qty: "1 EL"        },
+      { name: "Sake oder Reiswein",       qty: "1 EL"        },
+      { name: "Honig",                    qty: "1 TL"        },
+      { name: "Sesamöl",                  qty: "1 TL"        },
+      { name: "Sesamsamen",               qty: "2 TL"        },
+      { name: "Frühlingszwiebeln",        qty: "2 Stück"     },
+      { name: "Reisessig",                qty: "1 TL"        },
+    ],
+    steps: [
+      "Tare-Glasur: Sojasosse, Mirin, Sake und Honig in einem kleinen Topf aufkochen und 3–4 Min. bei kleiner Hitze einkochen lassen bis die Sauce leicht sirupartig wird.",
+      "Hähnchen in ca. 3 cm grosse Würfel schneiden und auf Holzspiesse (vorher eingeweicht) aufstecken.",
+      "Grillpfanne stark erhitzen. Hähnchenspiesse bei mittlerer bis hoher Hitze 8–10 Min. von allen Seiten braten. In den letzten 2 Min. mehrfach mit Tare-Glasur einpinseln.",
+      "Edamame nach Packungsanweisung erhitzen. Gurke in dünne Scheiben schneiden. Beides mit Sesamöl, Reisessig, 1 TL Sesamsamen, Salz und Pfeffer zu einem Salat vermengen.",
+      "Edamame-Salat auf einem Teller anrichten, Yakitori-Spiesse darauflegen. Mit restlichen Sesamsamen und Frühlingszwiebeln bestreuen.",
+    ],
+  },
+  {
+    cuisine: "asian",
+    emoji: "🌶️",
+    heroGrad: "linear-gradient(135deg,#ffd8d0,#f09080)",
+    name: "Koreanisches Dakgalbi – Würzige Hähnchenpfanne",
+    desc: "Feuriges koreanisches Hähnchengericht mit Gochujang-Marinade, Süsskartoffeln und Frühlingskohl. Scharf, aromatisch und unglaublich befriedigend.",
+    kcal: 420, protein: 38, carbs: 36, fat: 10, fiber: 5,
+    prepTime: "30 Min.", difficulty: "Mittel",
+    ingredients: [
+      { name: "Hähnchenbrustfilet",       qty: "155 g"       },
+      { name: "Süsskartoffeln",           qty: "100 g"       },
+      { name: "Weisskohl",                qty: "80 g"        },
+      { name: "Frühlingszwiebeln",        qty: "3 Stück"     },
+      { name: "Gochujang",                qty: "1 EL"        },
+      { name: "Sojasosse (light)",        qty: "1 EL"        },
+      { name: "Knoblauchzehen",           qty: "2 Stück"     },
+      { name: "Ingwer (frisch)",          qty: "1 cm"        },
+      { name: "Sesamöl",                  qty: "1 TL"        },
+      { name: "Honig",                    qty: "½ TL"        },
+      { name: "Sesamsamen",               qty: "1 TL"        },
+    ],
+    steps: [
+      "Marinade: Gochujang, Sojasosse, gepressten Knoblauch, geriebenen Ingwer, Honig und ½ TL Sesamöl verrühren.",
+      "Hähnchen in mundgerechte Stücke schneiden, mit der Marinade vermengen und mindestens 10 Min. ziehen lassen.",
+      "Süsskartoffeln schälen und in dünne Scheiben (ca. 5 mm) schneiden. Kohl grob zerzupfen. Frühlingszwiebeln in 3 cm lange Stücke schneiden.",
+      "Pfanne bei mittlerer bis hoher Hitze aufheizen, ½ TL Sesamöl erhitzen. Süsskartoffeln einlegen und 3 Min. anbraten. Hähnchen dazugeben und alles 5–6 Min. unter gelegentlichem Wenden braten.",
+      "Kohl und Frühlingszwiebeln untermischen und weitere 3–4 Min. braten bis alles gar ist. Bei Bedarf einen Spritzer Wasser dazugeben. Mit Sesamsamen bestreuen und sofort servieren.",
+    ],
+  },
+];
+
+/* ═══════════════════════════════════════════════════
+   BEWÄHRTE REZEPTE
+═══════════════════════════════════════════════════ */
+const favorites = [
+  {
+    emoji: "🍛",
+    heroGrad: "linear-gradient(135deg,#fde0c0,#f4a060)",
+    name: "Panang Curry mit Poulet",
+    desc: "Cremiges Thai-Curry mit zartem Pouletfleisch in aromatischer Panang-Paste und Kokosmilch light. Intensiv im Geschmack, trotzdem kalorienarm – ein verlässliches Lieblingsrezept.",
+    source: "bettybossi.ch",
+    url: "https://www.bettybossi.ch/de/rezepte/rezept/panang-curry-mit-poulet-10007801/",
+  },
+  {
+    emoji: "🌶️",
+    heroGrad: "linear-gradient(135deg,#ffd0c0,#f07050)",
+    name: "Phat Krapao – Thailändisches Hackfleischgericht",
+    desc: "Das beliebteste Strassenfood Bangkoks: würziges Hähnchenhackfleisch mit Thai-Basilikum, Chili und Knoblauch. Proteinreich, in 15 Minuten auf dem Tisch.",
+    source: "fooby.ch",
+    url: "https://fooby.ch/de/rezepte/18895/phat-krapao--thailaendisches-hackfleischgericht-?menge=2",
+  },
+];
+
+/* ═══════════════════════════════════════════════════
+   MENÜKARTEN RENDERN
+═══════════════════════════════════════════════════ */
+const grid = document.getElementById('mealsGrid');
+
+meals.forEach((meal, idx) => {
+  const card = document.createElement('div');
+  card.className = 'meal-card';
+
+  // emoji hero
+  const hero = document.createElement('div');
+  hero.className = 'card-hero';
+  hero.style.background = meal.heroGrad;
+  hero.textContent = meal.emoji;
+  card.appendChild(hero);
+
+  // cuisine tag
+  const cuisineTag = meal.cuisine === 'asian'
+    ? '<span class="cuisine-tag asian">🌏 Asiatisch</span>'
+    : '<span class="cuisine-tag western">🌿 Westlich</span>';
+
+  // build ingredient rows
+  const rows = meal.ingredients.map(ing => `
+    <tr>
+      <td>${ing.name}</td>
+      <td>${scaleQty(ing.qty, 2)}</td>
+      <td>${scaleQty(ing.qty, 3)}</td>
+      <td>${scaleQty(ing.qty, 4)}</td>
+    </tr>`).join('');
+
+  const body = document.createElement('div');
+  body.className = 'card-body';
+  body.innerHTML = `
+    ${cuisineTag}
+    <div class="meal-name">${meal.name}</div>
+    <p class="meal-desc">${meal.desc}</p>
+    <div class="nutrition">
+      <span class="nut-pill kcal">🔥 ${meal.kcal} kcal</span>
+      <span class="nut-pill protein">💪 ${meal.protein}g Protein</span>
+      <span class="nut-pill carbs">🌾 ${meal.carbs}g KH</span>
+      <span class="nut-pill fat">🥑 ${meal.fat}g Fett</span>
+      <span class="nut-pill fiber">🌱 ${meal.fiber}g Ballaststoffe</span>
+    </div>
+    <div class="prep-line">
+      <span>⏱ ${meal.prepTime}</span>
+      <span>👨‍🍳 ${meal.difficulty}</span>
+    </div>
+    <button class="ingredients-toggle" onclick="toggleIng(this,'ing-${idx}','Zutaten')">
+      <span class="toggle-arrow">▸</span> Zutaten anzeigen
+    </button>
+    <div class="ing-wrap" id="ing-${idx}">
+      <table class="ing-table">
+        <thead>
+          <tr>
+            <th>Zutat</th>
+            <th>2 Pers.</th>
+            <th>3 Pers.</th>
+            <th>4 Pers.</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+    <button class="ingredients-toggle" onclick="toggleIng(this,'zub-${idx}','Zubereitung')">
+      <span class="toggle-arrow">▸</span> Zubereitung anzeigen
+    </button>
+    <div class="ing-wrap" id="zub-${idx}">
+      <ol class="steps-list">
+        ${meal.steps.map(s => `<li>${s}</li>`).join('')}
+      </ol>
+    </div>
+  `;
+  card.appendChild(body);
+  grid.appendChild(card);
+});
+
+/* ═══════════════════════════════════════════════════
+   BEWÄHRTE REZEPTE RENDERN
+═══════════════════════════════════════════════════ */
+const bewGrid = document.getElementById('bewaehrteGrid');
+
+favorites.forEach(fav => {
+  const card = document.createElement('div');
+  card.className = 'bewaehrte-card';
+
+  const hero = document.createElement('div');
+  hero.className = 'bew-hero';
+  hero.style.background = fav.heroGrad;
+  hero.textContent = fav.emoji;
+  card.appendChild(hero);
+
+  const body = document.createElement('div');
+  body.className = 'bew-body';
+  body.innerHTML = `
+    <span class="star-label">⭐ Bewährt & empfohlen</span>
+    <div class="bew-name">${fav.name}</div>
+    <p class="bew-desc">${fav.desc}</p>
+  `;
+  card.appendChild(body);
+
+  const footer = document.createElement('div');
+  footer.className = 'bew-footer';
+  footer.innerHTML = `
+    <a class="bew-btn" href="${fav.url}" target="_blank" rel="noopener noreferrer">Zum Rezept →</a>
+    <span class="bew-source">${fav.source}</span>
+  `;
+  card.appendChild(footer);
+  bewGrid.appendChild(card);
+});
+
+/* ═══════════════════════════════════════════════════
+   ZUTATENLISTE AUFKLAPPEN
+═══════════════════════════════════════════════════ */
+function toggleIng(btn, id, label) {
+  const wrap = document.getElementById(id);
+  const open = wrap.classList.toggle('visible');
+  btn.classList.toggle('open', open);
+  btn.querySelector('.toggle-arrow').nextSibling.textContent =
+    open ? ` ${label} ausblenden` : ` ${label} anzeigen`;
+}
+</script>
+</body>
+</html>
